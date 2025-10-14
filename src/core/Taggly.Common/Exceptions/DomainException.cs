@@ -1,0 +1,17 @@
+﻿using Taggly.Common.Domain;
+
+namespace Taggly.Common.Exceptions;
+
+public class DomainException : Exception
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DomainException"/> class.
+    /// </summary>
+    /// <param name="error">The error instance.</param>
+    public DomainException(Error error) => Error = error;
+
+    /// <summary>
+    /// Gets the error.
+    /// </summary>
+    public Error Error { get; }
+}
