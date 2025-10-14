@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
 using Taggly.Exceptions.Base;
@@ -55,22 +58,27 @@ public class ExceptionHandlingMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception ex, HttpStatusCode statusCode)
     {
-        context.Response.ContentType = "application/json";
+        context.Response.ContentType = "application/problem+json";
         context.Response.StatusCode = (int)statusCode;
 
         var isDev = _options.IncludeDetailsInDevelopment &&
-                    context.RequestServices.GetService(typeof(IHostEnvironment)) is IHostEnvironment env &&
-                    env.IsDevelopment();
+                    context.RequestServices.GetService<IHostEnvironment>()?.IsDevelopment() == true;
 
-        var response = new
+        var problemDetails = new TagglyProblemDetails
         {
-            error = ex.Message,
-            type = ex.GetType().Name,
-            correlationId = context.TraceIdentifier,
-            details = isDev ? ex.StackTrace : null,
-            validationErrors = ex is ValidationException vex ? vex.Errors : null
+            Type = $"https://httpstatuses.com/{(int)statusCode}",
+            Title = ex is TagglyException tex ? tex.GetType().Name : "InternalServerError",
+            Status = (int)statusCode,
+            Detail = isDev ? ex.ToString() : ex.Message,
+            Instance = context.TraceIdentifier
         };
 
-        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        if (ex is ValidationException vex)
+        {
+            problemDetails.Errors = vex.Errors.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
+        }
+
+        var json = JsonSerializer.Serialize(problemDetails, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        await context.Response.WriteAsync(json);
     }
 }
