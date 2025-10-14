@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Taggly.Exceptions.Middleware;
 
 namespace Taggly.Exceptions.Extensions;
 
