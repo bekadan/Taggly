@@ -1,11 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using Taggly.Common.Domain;
+using Taggly.Common.Extensions;
+using Taggly.Common.Types;
 
 namespace Taggly.UrlShortener.Domain.ValueObjects;
 
 public sealed class ShortCode : ValueObject
 {
-    private static readonly Regex ValidCodeRegex = new(@"^[a-zA-Z0-9]{4,12}$", RegexOptions.Compiled);
+    private static readonly Regex ValidCodeRegex = new(@"^[a-zA-Z0-9]{3,7}$", RegexOptions.Compiled);
     public string Value { get; }
 
     private ShortCode(string value)
@@ -13,16 +15,11 @@ public sealed class ShortCode : ValueObject
         Value = value;
     }
 
-    public static ShortCode Create(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Short code cannot be empty", nameof(value));
-
-        if (value.Length < 5 || value.Length > 15)
-            throw new ArgumentException("Short code length must be between 5 and 15 characters.", nameof(value));
-
-        return new ShortCode(value);
-    }
+    public static Result<ShortCode> Create(string value)
+        => Result.Create(value, Errors.ShortCode.ShortCodeCannotBeEmpty)
+            .Ensure(s => !string.IsNullOrWhiteSpace(s), Errors.ShortCode.ShortCodeCannotBeEmpty)
+            .Ensure(s=>!ValidCodeRegex.IsMatch(s), Errors.ShortCode.InvalidShortCodeFormat)
+            .Map(s => new ShortCode(s));
 
     public override string ToString() => Value;
     public override bool Equals(object? obj) => obj is ShortCode other && Value == other.Value;

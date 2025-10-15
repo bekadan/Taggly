@@ -4,11 +4,11 @@ namespace Taggly.UrlShortener.Domain.ValueObjects;
 
 public sealed class UrlMetadata : ValueObject
 {
-    public string? CreatedBy { get; }
+    public Guid? CreatedBy { get; }
     public DateTime? ExpirationDate { get; }
     public string? Description { get; }
 
-    private UrlMetadata(string? createdBy, DateTime? expirationDate = null, string? description = null)
+    private UrlMetadata(Guid? createdBy, DateTime? expirationDate = null, string? description = null)
     {
         if (expirationDate.HasValue && expirationDate <= DateTime.UtcNow)
             throw new ArgumentException("Expiration date must be in the future.", nameof(expirationDate));
@@ -18,12 +18,13 @@ public sealed class UrlMetadata : ValueObject
         ExpirationDate = expirationDate;
     }
 
-    public static UrlMetadata Create(string? createdBy = null, DateTime? expirationDate = null)
-        => new(createdBy, expirationDate);
+    public static UrlMetadata Create(Guid? createdBy = null, DateTime? expirationDate = null, string? description = null)
+        => new(createdBy, expirationDate, description);
 
     protected override IEnumerable<object?> GetAtomicValues()
     {
-        yield return CreatedBy ?? string.Empty;
+        yield return CreatedBy ?? Guid.Empty;
         yield return ExpirationDate ?? DateTime.MinValue;
+        yield return Description ?? string.Empty;
     }
 }

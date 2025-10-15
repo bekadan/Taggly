@@ -2,5 +2,5 @@
 
 public interface IShortCodeGenerator
 {
-    string Generate();
+    string Generate(int length);
 }
