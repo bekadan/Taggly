@@ -1,8 +1,9 @@
 ﻿using Taggly.Common.Abstractions;
+using Taggly.Common.Domain;
 
 namespace Taggly.UrlShortener.Domain.ValueObjects;
 
-public sealed class OriginalUrl : IValueObject
+public sealed class OriginalUrl : ValueObject
 {
     public string Value { get; }
 
@@ -22,4 +23,9 @@ public sealed class OriginalUrl : IValueObject
     public override string ToString() => Value;
     public override bool Equals(object? obj) => obj is OriginalUrl other && Value == other.Value;
     public override int GetHashCode() => Value.GetHashCode();
+
+    protected override IEnumerable<object?> GetAtomicValues()
+    {
+        yield return Value;
+    }
 }

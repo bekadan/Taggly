@@ -1,47 +1,42 @@
-﻿using Taggly.Common.Abstractions;
+﻿using Taggly.Common.Domain;
 using Taggly.UrlShortener.Domain.Events;
 using Taggly.UrlShortener.Domain.ValueObjects;
 
 namespace Taggly.UrlShortener.Domain.Entities;
 
-public class ShortUrl : IAggregateRoot
+public class ShortUrl : AggregateRoot
 {
-    public Guid Id { get; private set; }
     public ShortCode ShortCode { get; private set; }
     public OriginalUrl OriginalUrl { get; private set; }
     public UrlMetadata Metadata { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? ExpirationDate { get; private set; }
 
-    // factory method
-    public static ShortUrl Create(OriginalUrl originalUrl, ShortCode shortCode, UrlMetadata metadata)
-    {
-        var entity = new ShortUrl
-        {
-            Id = Guid.NewGuid(),
-            OriginalUrl = originalUrl,
-            ShortCode = shortCode,
-            Metadata = metadata,
-            CreatedAt = DateTime.UtcNow,
-            ExpirationDate = metadata.ExpirationDate
-        };
+    // EF Core requires a parameterless constructor
+    private ShortUrl() { }
 
-        entity.AddDomainEvent(new UrlCreatedDomainEvent(entity.Id, entity.ShortCode.Value, entity.OriginalUrl.Value));
-        return entity;
+    // factory method
+    private ShortUrl(OriginalUrl originalUrl, ShortCode shortCode, UrlMetadata metadata)
+    {
+        Id = Guid.NewGuid();
+        OriginalUrl = originalUrl ?? throw new ArgumentNullException(nameof(originalUrl));
+        ShortCode = shortCode ?? throw new ArgumentNullException(nameof(shortCode));
+        Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+        CreatedAt = DateTime.UtcNow;
+        ExpirationDate = metadata.ExpirationDate;
+
+        AddDomainEvent(new UrlCreatedDomainEvent(Id, ShortCode.Value, OriginalUrl.Value));
     }
+
+    public static ShortUrl Create(OriginalUrl originalUrl, ShortCode shortCode, UrlMetadata metadata)
+            => new ShortUrl(originalUrl, shortCode, metadata);
 
     // example domain behavior
     public void Expire()
     {
+        if (ExpirationDate is not null && ExpirationDate <= DateTime.UtcNow)
+            return; // Already expired
+
         ExpirationDate = DateTime.UtcNow;
-    }
-
-    // domain events collection (optional in aggregate)
-    private readonly List<IDomainEvent> _domainEvents = new();
-    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-
-    protected void AddDomainEvent(IDomainEvent @event)
-    {
-        _domainEvents.Add(@event);
     }
 }

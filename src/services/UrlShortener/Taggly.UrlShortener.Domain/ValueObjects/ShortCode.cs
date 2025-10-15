@@ -1,8 +1,9 @@
 ﻿using Taggly.Common.Abstractions;
+using Taggly.Common.Domain;
 
 namespace Taggly.UrlShortener.Domain.ValueObjects;
 
-public sealed class ShortCode : IValueObject
+public sealed class ShortCode : ValueObject
 {
     public string Value { get; }
 
@@ -25,4 +26,9 @@ public sealed class ShortCode : IValueObject
     public override string ToString() => Value;
     public override bool Equals(object? obj) => obj is ShortCode other && Value == other.Value;
     public override int GetHashCode() => Value.GetHashCode();
+
+    protected override IEnumerable<object?> GetAtomicValues()
+    {
+        yield return Value;
+    }
 }
