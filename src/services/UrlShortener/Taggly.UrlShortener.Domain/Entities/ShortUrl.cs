@@ -9,7 +9,6 @@ public class ShortUrl : AggregateRoot
     public ShortCode ShortCode { get; private set; }
     public OriginalUrl OriginalUrl { get; private set; }
     public UrlMetadata Metadata { get; private set; }
-    public DateTime CreatedAt { get; private set; }
     public DateTime? ExpirationDate { get; private set; }
 
     // EF Core requires a parameterless constructor
@@ -22,7 +21,6 @@ public class ShortUrl : AggregateRoot
         OriginalUrl = originalUrl ?? throw new ArgumentNullException(nameof(originalUrl));
         ShortCode = shortCode ?? throw new ArgumentNullException(nameof(shortCode));
         Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
-        CreatedAt = DateTime.UtcNow;
         ExpirationDate = metadata.ExpirationDate;
 
         AddDomainEvent(new UrlCreatedDomainEvent(Id, ShortCode.Value, OriginalUrl.Value));

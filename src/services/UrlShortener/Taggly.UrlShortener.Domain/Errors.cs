@@ -33,4 +33,13 @@ public static class Errors
         public static Error InvalidShortCodeFormat
             => new Error("InvalidShortCodeFormat", "Short code must be alphanumeric and between 3 to 7 characters.");
     }
+
+    public static class UrlMetadata
+    {
+        public static Error InvalidExpirationDate
+            => new Error("InvalidExpirationDate", "Expiration date must be in the future.");
+
+        public static Error CreatedByCannotBeNull
+            => new Error("CreatedByCannotBeNull", "User Id cannot be null."); 
+    }
 }

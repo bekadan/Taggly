@@ -20,6 +20,8 @@ public class ShortUrlConfigurations : IEntityTypeConfiguration<ShortUrl>
               .HasColumnName("ShortCode")
               .IsRequired()
               .HasMaxLength(7);
+
+            sc.HasIndex(p => p.Value).IsUnique();
         });
 
         builder.OwnsOne(x => x.OriginalUrl, ou =>
@@ -48,11 +50,19 @@ public class ShortUrlConfigurations : IEntityTypeConfiguration<ShortUrl>
               .HasMaxLength(500);
         });
 
-        builder.Property(su => su.CreatedAt)
+        builder.Property(su => su.CreatedOnUtc)
+                .HasColumnName("CreatedOnUtc")
                .IsRequired();
 
-        builder.Property(su => su.ExpirationDate);
+        builder.Property(su => su.ModifiedOnUtc)
+                .HasColumnName("ModifiedOnUtc");
 
-        builder.HasIndex(su => su.ShortCode.Value).IsUnique();
+        builder.Property(su => su.DeletedOnUtc)
+                .HasColumnName("DeletedOnUtc");
+
+        builder.Property(su => su.IsDeleted)
+                .HasColumnName("IsDeleted").HasDefaultValue(false);
+
+        builder.Property(su => su.ExpirationDate).HasColumnName("ExpirationDate");
     }
 }

@@ -7,7 +7,12 @@ namespace Taggly.UrlShortener.Infrastructure.Persistence
 {
     public class UrlShortenerDbContext : DbContext
     {
-        public UrlShortenerDbContext(DbContextOptions<UrlShortenerDbContext> options)
+        public UrlShortenerDbContext()
+        {
+            
+        }
+
+        public UrlShortenerDbContext(DbContextOptions options)
             : base(options)
         {
         }
@@ -17,8 +22,7 @@ namespace Taggly.UrlShortener.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new ShortUrlConfigurations());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UrlShortenerDbContext).Assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
