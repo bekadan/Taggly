@@ -5,9 +5,9 @@ namespace Taggly.UrlShortener.Domain.ValueObjects;
 
 public sealed class UrlMetadata : ValueObject
 {
-    public Guid CreatedBy { get; }
-    public DateTime? ExpirationDate { get; }
-    public string? Description { get; }
+    public Guid CreatedBy { get; private set; }
+    public DateTime? ExpirationDate { get; private set; }
+    public string? Description { get; private set; }
 
     private UrlMetadata(Guid createdBy, DateTime? expirationDate = null, string? description = null)
     {
@@ -29,5 +29,23 @@ public sealed class UrlMetadata : ValueObject
         yield return CreatedBy;
         yield return ExpirationDate ?? DateTime.MinValue;
         yield return Description ?? string.Empty;
+    }
+
+    public void UpdateCreatedBy(Guid createdBy)
+    {
+        CreatedBy = createdBy;
+    }
+
+    public Result UpdateExpirationDate(DateTime? expirationDate)
+    {
+        if (expirationDate.HasValue && expirationDate <= DateTime.UtcNow)
+            return Result.Failure(Errors.UrlMetadata.InvalidExpirationDate);
+        ExpirationDate = expirationDate;
+        return Result.Success();
+    }
+
+    public void UpdateDescription(string? description)
+    {
+        Description = description;
     }
 }
