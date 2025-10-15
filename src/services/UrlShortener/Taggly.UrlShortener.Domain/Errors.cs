@@ -42,4 +42,10 @@ public static class Errors
         public static Error CreatedByCannotBeNull
             => new Error("CreatedByCannotBeNull", "User Id cannot be null."); 
     }
+
+    public static class OriginalUrl
+    {
+        public static Error OriginalUrlNotReachable
+            => new Error("OriginalUrlNotReachable", "Original Url is not reachable!");
+    }
 }

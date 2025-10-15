@@ -26,7 +26,7 @@ namespace Taggly.UrlShortener.Application.Commands.Create
 
             if (originalUrlResult.IsFailure)
             {
-                return await Task.FromResult(Result.Failure<ShortUrlResponse>(originalUrlResult.Error));
+                return Result.Failure<ShortUrlResponse>(originalUrlResult.Error);
             }
 
             var metadataResult = UrlMetadata.Create(request.UserId, request.ExpirationDate, request.Description);
@@ -36,7 +36,7 @@ namespace Taggly.UrlShortener.Application.Commands.Create
                 return Result.Failure<ShortUrlResponse>(metadataResult.Error);
             }
 
-            string shortCodeValue;
+            string shortCodeValue = string.Empty;
             int retryCount = 0;
 
             do
@@ -50,7 +50,20 @@ namespace Taggly.UrlShortener.Application.Commands.Create
 
             } while (await _shortUrlRepository.AnyAsync(predicate: s => s.ShortCode.Value.Equals(shortCodeValue), cancellationToken: cancellationToken, withDeleted: true));
 
-            var shortUrlCreateResult = ShortUrl.Create(originalUrlResult.Value(), ShortCode.Create(shortCodeValue).Value(), metadataResult.Value());
+            if (string.IsNullOrEmpty(shortCodeValue))
+            {
+                return Result.Failure<ShortUrlResponse>(Errors.ShortUrl.ShortUrlCouldntCreated);
+            }
+
+            var shortCodeResult = ShortCode.Create(shortCodeValue);
+
+            if (shortCodeResult.IsFailure)
+            {
+                throw new Exception(shortCodeResult.Error.Message);
+                //return Result.Failure<ShortUrlResponse>(shortCodeResult.Error);
+            }
+
+            var shortUrlCreateResult = ShortUrl.Create(originalUrlResult.Value(), shortCodeResult.Value(), metadataResult.Value());
 
             await _shortUrlRepository.AddAsync(shortUrlCreateResult, cancellationToken);
 

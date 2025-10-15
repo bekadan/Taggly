@@ -136,7 +136,7 @@ public class Result<TValue> : Result
     {
         if (IsFailure)
         {
-            throw new InvalidOperationException();
+            return default!;
         }
 
         return _value;

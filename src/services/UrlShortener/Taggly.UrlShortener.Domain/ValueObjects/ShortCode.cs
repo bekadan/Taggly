@@ -18,7 +18,7 @@ public sealed class ShortCode : ValueObject
     public static Result<ShortCode> Create(string value)
         => Result.Create(value, Errors.ShortCode.ShortCodeCannotBeEmpty)
             .Ensure(s => !string.IsNullOrWhiteSpace(s), Errors.ShortCode.ShortCodeCannotBeEmpty)
-            .Ensure(s=>!ValidCodeRegex.IsMatch(s), Errors.ShortCode.InvalidShortCodeFormat)
+            .Ensure(s=> ValidCodeRegex.IsMatch(s), Errors.ShortCode.InvalidShortCodeFormat)
             .Map(s => new ShortCode(s));
 
     public override string ToString() => Value;
