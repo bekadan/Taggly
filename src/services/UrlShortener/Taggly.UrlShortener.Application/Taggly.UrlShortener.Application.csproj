@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Taggly.UrlShortener.Domain\Taggly.UrlShortener.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
 </Project>

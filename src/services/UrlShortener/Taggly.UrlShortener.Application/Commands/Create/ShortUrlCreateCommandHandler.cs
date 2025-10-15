@@ -58,16 +58,15 @@ namespace Taggly.UrlShortener.Application.Commands.Create
             var shortCodeResult = ShortCode.Create(shortCodeValue);
 
             if (shortCodeResult.IsFailure)
-            {
-                throw new Exception(shortCodeResult.Error.Message);
-                //return Result.Failure<ShortUrlResponse>(shortCodeResult.Error);
+            {   
+                return Result.Failure<ShortUrlResponse>(shortCodeResult.Error);
             }
 
             var shortUrlCreateResult = ShortUrl.Create(originalUrlResult.Value(), shortCodeResult.Value(), metadataResult.Value());
 
             await _shortUrlRepository.AddAsync(shortUrlCreateResult, cancellationToken);
 
-            var response = new ShortUrlResponse(request.UserId, shortUrlCreateResult);
+            var response = new ShortUrlResponse(shortUrlCreateResult);
 
             return Result<ShortUrlResponse, object>.Success(response, response);
         }

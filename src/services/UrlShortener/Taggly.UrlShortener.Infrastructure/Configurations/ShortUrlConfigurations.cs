@@ -62,7 +62,5 @@ public class ShortUrlConfigurations : IEntityTypeConfiguration<ShortUrl>
 
         builder.Property(su => su.IsDeleted)
                 .HasColumnName("IsDeleted").HasDefaultValue(false);
-
-        builder.Property(su => su.ExpirationDate).HasColumnName("ExpirationDate");
     }
 }

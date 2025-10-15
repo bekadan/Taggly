@@ -1,4 +1,5 @@
-﻿using Taggly.Common.Abstractions;
+﻿using System.Text.Json.Serialization;
+using Taggly.Common.Abstractions;
 
 namespace Taggly.Common.Domain;
 
@@ -13,6 +14,7 @@ public abstract class AggregateRoot : BaseEntity, IAggregateRoot
 
     protected AggregateRoot(Guid id) : base(id) { }
 
+    [JsonIgnore]
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     protected void AddDomainEvent(IDomainEvent domainEvent)

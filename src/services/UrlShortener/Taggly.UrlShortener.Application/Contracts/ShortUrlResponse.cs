@@ -2,4 +2,4 @@
 
 namespace Taggly.UrlShortener.Application.Contracts;
 
-public sealed record ShortUrlResponse(Guid? UserId, ShortUrl ShortUrl);
+public sealed record ShortUrlResponse(ShortUrl ShortUrl);
