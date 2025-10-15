@@ -1,9 +1,11 @@
-﻿using Taggly.Common.Domain;
+﻿using System.Text.RegularExpressions;
+using Taggly.Common.Domain;
 
 namespace Taggly.UrlShortener.Domain.ValueObjects;
 
 public sealed class ShortCode : ValueObject
 {
+    private static readonly Regex ValidCodeRegex = new(@"^[a-zA-Z0-9]{4,12}$", RegexOptions.Compiled);
     public string Value { get; }
 
     private ShortCode(string value)
