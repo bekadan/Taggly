@@ -13,6 +13,9 @@ public sealed class OriginalUrl : ValueObject
 
     public static OriginalUrl Create(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("URL cannot be empty.", nameof(value));
+
         if (!Uri.IsWellFormedUriString(value, UriKind.Absolute))
             throw new ArgumentException("Invalid URL format.", nameof(value));
 
