@@ -14,7 +14,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<UrlShortenerDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("UrlShortenerDbConnectionString"));
+            options.UseNpgsql(configuration.GetConnectionString("UrlShortenerDbConnectionString"))
+                .UseSnakeCaseNamingConvention();
         });
 
         services.AddScoped<IShortUrlRepository, ShortUrlRepository>();
