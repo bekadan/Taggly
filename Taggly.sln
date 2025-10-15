@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taggly.Logging", "src\core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taggly.Caching", "src\core\Taggly.Caching\Taggly.Caching.csproj", "{737C8F7E-8A73-48DC-A3DA-4CDF12891C91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taggly.UrlShortener.Infrastructure", "src\services\UrlShortener\Taggly.UrlShortener.Infrastructure\Taggly.UrlShortener.Infrastructure.csproj", "{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{737C8F7E-8A73-48DC-A3DA-4CDF12891C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{737C8F7E-8A73-48DC-A3DA-4CDF12891C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{737C8F7E-8A73-48DC-A3DA-4CDF12891C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{0FB77833-E16E-4EEF-BBF8-5B8F290410CD} = {25E4D1EF-ECD5-4622-A813-6BD40170BBCF}
 		{DD0CA155-ED90-4952-BB9A-210E72AEF2B1} = {25E4D1EF-ECD5-4622-A813-6BD40170BBCF}
 		{737C8F7E-8A73-48DC-A3DA-4CDF12891C91} = {25E4D1EF-ECD5-4622-A813-6BD40170BBCF}
+		{43D6CDD9-6BD6-442C-94B7-55D0A2264FD4} = {FFDEFF14-9992-47A6-B4E4-0E97369A764C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E896A4C-AAFD-4F65-B9D6-E246D8A2F26E}
