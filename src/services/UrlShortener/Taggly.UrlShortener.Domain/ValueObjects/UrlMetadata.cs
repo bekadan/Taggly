@@ -1,5 +1,4 @@
-﻿using Taggly.Common.Abstractions;
-using Taggly.Common.Domain;
+﻿using Taggly.Common.Domain;
 
 namespace Taggly.UrlShortener.Domain.ValueObjects;
 
