@@ -6,9 +6,14 @@ public sealed class UrlMetadata : ValueObject
 {
     public string? CreatedBy { get; }
     public DateTime? ExpirationDate { get; }
+    public string? Description { get; }
 
-    private UrlMetadata(string? createdBy, DateTime? expirationDate)
+    private UrlMetadata(string? createdBy, DateTime? expirationDate = null, string? description = null)
     {
+        if (expirationDate.HasValue && expirationDate <= DateTime.UtcNow)
+            throw new ArgumentException("Expiration date must be in the future.", nameof(expirationDate));
+
+        Description = description;
         CreatedBy = createdBy;
         ExpirationDate = expirationDate;
     }
@@ -18,7 +23,7 @@ public sealed class UrlMetadata : ValueObject
 
     protected override IEnumerable<object?> GetAtomicValues()
     {
-        yield return CreatedBy;
-        yield return ExpirationDate;
+        yield return CreatedBy ?? string.Empty;
+        yield return ExpirationDate ?? DateTime.MinValue;
     }
 }
