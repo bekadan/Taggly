@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Taggly.Common.Abstractions.Repositories;
-using Taggly.UrlShortener.Application.Interfaces.Repositories;
+
+using Taggly.UrlShortener.Domain.Entities;
 using Taggly.UrlShortener.Infrastructure.Persistence;
 using Taggly.UrlShortener.Infrastructure.Repositories;
 
@@ -18,9 +19,7 @@ public static class DependencyInjection
                 .UseSnakeCaseNamingConvention();
         });
 
-        services.AddScoped<IShortUrlRepository, ShortUrlRepository>();
-        services.AddScoped(typeof(IAsyncRepository<,>), typeof(ShortUrlRepository));
-
+        services.AddScoped(typeof(IAsyncRepository<ShortUrl>), typeof(AsyncRepositoryBase<ShortUrl, UrlShortenerDbContext>));
         return services;
     }
 }

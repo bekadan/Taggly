@@ -6,6 +6,6 @@ public class Put : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        throw new NotImplementedException();
+        app.MapPut("/", () => { });
     }
 }

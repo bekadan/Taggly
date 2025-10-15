@@ -6,7 +6,7 @@ using Taggly.Common.Paging;
 
 namespace Taggly.Common.Abstractions.Repositories;
 
-public interface IAsyncRepository<TEntity, TEntityId> : IQuery<TEntity>
+public interface IAsyncRepository<TEntity> : IQuery<TEntity>
 where TEntity : IEntity
 {
     Task<TEntity?> GetAsync(

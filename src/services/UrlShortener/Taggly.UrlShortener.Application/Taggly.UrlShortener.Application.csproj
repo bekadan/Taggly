@@ -13,7 +13,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\core\Taggly.Common\Taggly.Common.csproj" />
+    <ProjectReference Include="..\..\..\core\Taggly.Exceptions\Taggly.Exceptions.csproj" />
     <ProjectReference Include="..\Taggly.UrlShortener.Domain\Taggly.UrlShortener.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>

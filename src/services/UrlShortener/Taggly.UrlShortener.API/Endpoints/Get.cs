@@ -6,6 +6,6 @@ public class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        throw new NotImplementedException();
+        app.MapGet("/", () => { });
     }
 }

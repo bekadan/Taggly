@@ -6,6 +6,6 @@ public class Post : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        throw new NotImplementedException();
+        app.MapPost("/", () => { });
     }
 }

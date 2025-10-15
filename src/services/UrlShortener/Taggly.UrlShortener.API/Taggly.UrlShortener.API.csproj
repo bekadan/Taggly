@@ -12,6 +12,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Taggly.UrlShortener.Application\Taggly.UrlShortener.Application.csproj" />
+    <ProjectReference Include="..\Taggly.UrlShortener.Domain\Taggly.UrlShortener.Domain.csproj" />
+    <ProjectReference Include="..\Taggly.UrlShortener.Infrastructure\Taggly.UrlShortener.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

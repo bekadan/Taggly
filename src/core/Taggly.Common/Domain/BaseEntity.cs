@@ -6,6 +6,14 @@ public abstract class BaseEntity : IEntity
 {
     public Guid Id { get; protected set; } = default!;
 
+    public DateTime CreatedOnUtc { get; set; }
+
+    public DateTime? ModifiedOnUtc { get; set; }
+
+    public DateTime? DeletedOnUtc { get; set; }
+
+    public bool IsDeleted { get; set; }
+
     protected BaseEntity() { }
 
     protected BaseEntity(Guid id) => Id = id;
