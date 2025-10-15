@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Taggly.UrlShortener.API.Abstractions;
 using Taggly.UrlShortener.Application.Commands.Create;
 
@@ -8,7 +9,7 @@ public class Post : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/short-urls/create", async (ShortUrlCreateCommand shortUrlCreate, IMediator mediator) => 
+        app.MapPost("/short-urls/create", async ([FromBody] ShortUrlCreateCommand shortUrlCreate, IMediator mediator) => 
         {
             var response = await mediator.Send(shortUrlCreate);
             return Results.Ok(response);
