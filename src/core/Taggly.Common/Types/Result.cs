@@ -144,3 +144,27 @@ public class Result<TValue> : Result
 
     public static implicit operator Result<TValue>(TValue value) => Success(value);
 }
+
+public class Result<TValue, TResponse> : Result<TValue>
+{
+    public TResponse? Response { get; }
+
+    protected internal Result(TValue value, TResponse? response, bool isSuccess, Error error)
+        : base(value, isSuccess, error)
+    {
+        Response = response;
+    }
+
+    /// <summary>
+    /// Create a successful result with value and response DTO
+    /// </summary>
+    public static Result<TValue, TResponse> Success(TValue value, TResponse response)
+        => new Result<TValue, TResponse>(value, response, true, Error.None);
+
+    /// <summary>
+    /// Create a failure result with error and optional response DTO
+    /// </summary>
+    public static Result<TValue, TResponse> Failure(Error error, TResponse? response = default)
+        => new Result<TValue, TResponse>(default!, response, false, error);
+}
+

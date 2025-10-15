@@ -69,7 +69,7 @@ namespace Taggly.UrlShortener.Application.Commands.Create
 
             var response = new ShortUrlResponse(request.UserId, shortUrlCreateResult);
 
-            return Result.Success<ShortUrlResponse>(response);
+            return Result<ShortUrlResponse, object>.Success(response, response);
         }
     }
 }
